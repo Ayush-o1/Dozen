@@ -39,7 +39,7 @@ const create = async (req, res) => {
 
 const getAll = async(req,res) => {
     try{
-        const tasks = await getAllTasks();
+        const tasks = await getAllTasks(req.user.userId);
 
         res.status(200).json({
             success: true,
@@ -58,7 +58,7 @@ const getAll = async(req,res) => {
 
 const getOne = async (req,res) => {
     try{
-        const task = await getTaskById(req.params.id);
+        const task = await getTaskById(req.params.id,req.user.userId);
 
         if(!task){
             return res.status(404).json({
@@ -91,13 +91,21 @@ const update = async (req,res) =>{
             dueDate,
         } = req.body;
 
-        const task = await updateTask(req.params.id, {
+        const task = await updateTask(req.params.id, req.user.userId, {
             title,
             description,
             status,
             priority,
             dueDate,
         });
+
+        if(!task){
+            return res.status(404).json({
+                success:false,
+                message:"Task not found",
+            });
+        }
+
         res.status(200).json({
             success:true,
             message:"Task updated successfully",
@@ -117,7 +125,14 @@ const update = async (req,res) =>{
 const remove = async (req,res) => {
     try{
 
-        const task = await deleteTask(req.params.id);
+        const task = await deleteTask(req.params.id,req.params.userId);
+
+        if(!task){
+            return res.status(404).json({
+                success:false,
+                message:"TaSK NOT found",
+            });
+        }
 
         res.status(200).json({
             message: true,
