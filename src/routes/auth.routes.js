@@ -1,9 +1,18 @@
 const express = require("express");
 const { register, login } = require("../controllers/auth.controller");
+const { authenticate } = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
 router.post("/register", register);
-router.post("/login",login);
+router.post("/login", login);
+
+router.get("/test", authenticate, (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Authentication successful",
+        user: req.user,
+    });
+});
 
 module.exports = router;
