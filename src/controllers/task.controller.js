@@ -1,7 +1,7 @@
 const prisma = require("../config/prisma");
 const { createTask , getAllTasks , getTaskById , updateTask, deleteTask } = require("../services/task.service");
 
-const create = async (req, res) => {
+const create = async (req, res,next) => {
     try {
         const {
             title,
@@ -37,7 +37,7 @@ const create = async (req, res) => {
     }
 };
 
-const getAll = async(req,res) => {
+const getAll = async(req,res,next) => {
     try{
         const tasks = await getAllTasks(req.user.userId);
 
@@ -81,7 +81,7 @@ const getOne = async (req,res) => {
     }
 };
 
-const update = async (req,res) =>{
+const update = async (req,res,next) =>{
     try{
         const {
             title,
@@ -122,7 +122,7 @@ const update = async (req,res) =>{
     }
 };
 
-const remove = async (req,res) => {
+const remove = async (req,res,next) => {
     try{
 
         const task = await deleteTask(req.params.id,req.params.userId);

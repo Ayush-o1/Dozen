@@ -1,6 +1,6 @@
-const { registerUser,loginUser } = require("../services/auth.service");
+const { registerUser, loginUser } = require("../services/auth.service");
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     try {
         const { name, email, password } = req.body;
 
@@ -13,47 +13,30 @@ const register = async (req, res) => {
         });
     } catch (error) {
         if (error.message === "Email already registered") {
-            return res.status(409).json({
-                success: false,
-                message: error.message,
-            });
+            error.statusCode = 409;
         }
 
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            message: "Something went wrong",
-        });
+        next(error);
     }
 };
 
-const login = async (req,res) => {
-    try{
-        const {email,password} = req.body;
+const login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
 
-        const result = await loginUser(email,password);
+        const result = await loginUser(email, password);
 
         res.status(200).json({
             success: true,
-            message: "Login success",
+            message: "Login successful",
             data: result,
         });
-    }
-    catch(error){
-        if (error.message === "Invalid email or password"){
-            return res.status(401).json({
-                success: false,
-                message: error.message,
-            });
+    } catch (error) {
+        if (error.message === "Invalid email or password") {
+            error.statusCode = 401;
         }
 
-        console.log(error);
-
-        res.status(500).json({
-            success:false,
-            message:"Something went wrong",
-        });
+        next(error);
     }
 };
 
