@@ -1,0 +1,377 @@
+/* ===================== RESET & BASE ===================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #f4f6f9;
+  color: #222;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+}
+
+/* ===================== AUTH SECTION ===================== */
+#auth-section {
+  max-width: 420px;
+  margin: 60px auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 32px;
+}
+
+#auth-section h1 {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.tab-btn.active {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+}
+
+form label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  margin-top: 12px;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  outline: none;
+  border-color: #555;
+}
+
+form button[type="submit"],
+button#apply-filter-btn,
+button#clear-filter-btn {
+  margin-top: 16px;
+  padding: 9px 18px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+form button[type="submit"]:hover,
+button#apply-filter-btn:hover {
+  background: #444;
+}
+
+button#clear-filter-btn {
+  background: #888;
+}
+
+button#clear-filter-btn:hover {
+  background: #666;
+}
+
+.error-msg {
+  color: #c0392b;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  min-height: 1.2em;
+}
+
+/* ===================== APP HEADER ===================== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background: #222;
+  color: #fff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.app-header h2 {
+  font-size: 1.3rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.9rem;
+}
+
+#logout-btn {
+  padding: 6px 14px;
+  background: #fff;
+  color: #222;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+#logout-btn:hover {
+  background: #ddd;
+}
+
+/* ===================== CARD ===================== */
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  font-size: 1rem;
+  margin-bottom: 14px;
+  color: #333;
+}
+
+/* ===================== ROW (for selects side by side) ===================== */
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.row > div {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* ===================== FILTER ROW ===================== */
+.filter-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-row > div {
+  flex: 1;
+  min-width: 130px;
+}
+
+.filter-btn-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+}
+
+/* ===================== TASK LIST ===================== */
+#tasks-section h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+#task-count {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.task-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.task-left {
+  flex: 1;
+}
+
+.task-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.task-description {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.task-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: #777;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Status badge colors */
+.badge-TODO       { background: #eee;    color: #555; }
+.badge-IN_PROGRESS { background: #fff3cd; color: #856404; }
+.badge-COMPLETED  { background: #d4edda; color: #155724; }
+
+/* Priority badge colors */
+.badge-LOW    { background: #e8f5e9; color: #2e7d32; }
+.badge-MEDIUM { background: #e3f2fd; color: #1565c0; }
+.badge-HIGH   { background: #fdecea; color: #c62828; }
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.btn-edit   { background: #e9ecef; color: #222; }
+.btn-delete { background: #f8d7da; color: #721c24; }
+
+.btn-edit:hover   { background: #dee2e6; }
+.btn-delete:hover { background: #f1b0b7; }
+
+/* ===================== PAGINATION ===================== */
+.pagination {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.page-btn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.page-btn.active {
+  background: #222;
+  color: #fff;
+  border-color: #222;
+}
+
+.page-btn:hover:not(.active) {
+  background: #f0f0f0;
+}
+
+.page-info {
+  font-size: 0.85rem;
+  color: #666;
+  margin-left: 6px;
+}
+
+/* ===================== MODAL ===================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 28px 32px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-box h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modal-buttons button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.modal-buttons button[type="submit"] {
+  background: #222;
+  color: #fff;
+}
+
+.modal-buttons button[type="button"] {
+  background: #ddd;
+  color: #333;
+}

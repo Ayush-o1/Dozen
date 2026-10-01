@@ -22,17 +22,36 @@ const createTask = async (
     return task;
 };
 
-const getAllTasks = async (userId) => {
+const getAllTasks = async (userId, { status, priority, search, sortField, sortOrder, skip, take }) => {
+    // Build the where clause dynamically
+    const where = { userId };
+
+    if (status) {
+        where.status = status;
+    }
+
+    if (priority) {
+        where.priority = priority;
+    }
+
+    if (search) {
+        where.OR = [
+            { title: { contains: search, mode: "insensitive" } },
+            { description: { contains: search, mode: "insensitive" } },
+        ];
+    }
+
+    // Run both queries: total count (for pagination info) and the actual page of tasks
+    const total = await prisma.task.count({ where });
+
     const tasks = await prisma.task.findMany({
-        where: {
-            userId,
-        },
-        orderBy: {
-            createdAt: "desc",
-        },
+        where,
+        orderBy: { [sortField]: sortOrder },
+        skip,
+        take,
     });
 
-    return tasks;
+    return { tasks, total };
 };
 
 const getTaskById = async (id, userId) => {

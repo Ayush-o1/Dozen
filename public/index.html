@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dozen – Task Manager</title>
+  <meta name="description" content="A simple task manager to create, filter, search, and manage your tasks." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== AUTH SECTION ===================== -->
+  <div id="auth-section">
+    <h1>Dozen</h1>
+    <p class="subtitle">Task Manager</p>
+
+    <!-- Tab buttons -->
+    <div class="tabs">
+      <button id="tab-login" class="tab-btn active" onclick="showTab('login')">Login</button>
+      <button id="tab-register" class="tab-btn" onclick="showTab('register')">Register</button>
+    </div>
+
+    <!-- Login form -->
+    <form id="login-form" onsubmit="handleLogin(event)">
+      <label for="login-email">Email</label>
+      <input id="login-email" type="email" placeholder="you@example.com" required />
+
+      <label for="login-password">Password</label>
+      <input id="login-password" type="password" placeholder="Password" required />
+
+      <button type="submit" id="login-btn">Login</button>
+      <p id="login-error" class="error-msg"></p>
+    </form>
+
+    <!-- Register form (hidden by default) -->
+    <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
+      <label for="register-name">Name</label>
+      <input id="register-name" type="text" placeholder="Your name" required />
+
+      <label for="register-email">Email</label>
+      <input id="register-email" type="email" placeholder="you@example.com" required />
+
+      <label for="register-password">Password</label>
+      <input id="register-password" type="password" placeholder="Password (min 6 chars)" required />
+
+      <button type="submit" id="register-btn">Register</button>
+      <p id="register-error" class="error-msg"></p>
+    </form>
+  </div>
+
+  <!-- ===================== APP SECTION (shown after login) ===================== -->
+  <div id="app-section" class="hidden">
+
+    <!-- Top bar -->
+    <header class="app-header">
+      <h2>Dozen</h2>
+      <div class="header-right">
+        <span id="user-name-display"></span>
+        <button id="logout-btn" onclick="handleLogout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Create task form -->
+    <section class="card" id="create-task-section">
+      <h3>New Task</h3>
+      <form id="create-task-form" onsubmit="handleCreateTask(event)">
+        <input id="task-title" type="text" placeholder="Task title" required />
+        <textarea id="task-description" placeholder="Description (optional)" rows="2"></textarea>
+
+        <div class="row">
+          <div>
+            <label for="task-status">Status</label>
+            <select id="task-status">
+              <option value="TODO">TODO</option>
+              <option value="IN_PROGRESS">IN_PROGRESS</option>
+              <option value="COMPLETED">COMPLETED</option>
+            </select>
+          </div>
+          <div>
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+              <option value="LOW">LOW</option>
+              <option value="MEDIUM" selected>MEDIUM</option>
+              <option value="HIGH">HIGH</option>
+            </select>
+          </div>
+          <div>
+            <label for="task-duedate">Due Date</label>
+            <input id="task-duedate" type="date" />
+          </div>
+        </div>
+
+        <button type="submit" id="create-btn">Add Task</button>
+        <p id="create-error" class="error-msg"></p>
+      </form>
+    </section>
+
+    <!-- Filter / search / sort controls -->
+    <section class="card" id="filter-section">
+      <h3>Filter &amp; Search</h3>
+      <div class="filter-row">
+        <div>
+          <label for="filter-search">Search</label>
+          <input id="filter-search" type="text" placeholder="Title or description..." />
+        </div>
+        <div>
+          <label for="filter-status">Status</label>
+          <select id="filter-status">
+            <option value="">All</option>
+            <option value="TODO">TODO</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="COMPLETED">COMPLETED</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-priority">Priority</label>
+          <select id="filter-priority">
+            <option value="">All</option>
+            <option value="LOW">LOW</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-sort">Sort by</label>
+          <select id="filter-sort">
+            <option value="-createdAt">Newest first</option>
+            <option value="createdAt">Oldest first</option>
+            <option value="-updatedAt">Recently updated</option>
+            <option value="title">Title A-Z</option>
+            <option value="-title">Title Z-A</option>
+            <option value="dueDate">Due date up</option>
+            <option value="-dueDate">Due date down</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-limit">Per page</label>
+          <select id="filter-limit">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+        <div class="filter-btn-wrap">
+          <button id="apply-filter-btn" onclick="applyFilters()">Apply</button>
+          <button id="clear-filter-btn" onclick="clearFilters()">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Task list -->
+    <section id="tasks-section">
+      <h3>Your Tasks <span id="task-count"></span></h3>
+      <p id="tasks-error" class="error-msg"></p>
+      <div id="task-list"></div>
+
+      <!-- Pagination -->
+      <div id="pagination-controls" class="pagination"></div>
+    </section>
+
+  </div>
+
+  <!-- ===================== EDIT MODAL ===================== -->
+  <div id="edit-modal" class="modal hidden">
+    <div class="modal-box">
+      <h3>Edit Task</h3>
+      <form id="edit-task-form" onsubmit="handleUpdateTask(event)">
+        <input type="hidden" id="edit-task-id" />
+
+        <label for="edit-title">Title</label>
+        <input id="edit-title" type="text" required />
+
+        <label for="edit-description">Description</label>
+        <textarea id="edit-description" rows="2"></textarea>
+
+        <div class="row">
+          <div>
+            <label for="edit-status">Status</label>
+            <select id="edit-status">
+              <option value="TODO">TODO</option>
+              <option value="IN_PROGRESS">IN_PROGRESS</option>
+              <option value="COMPLETED">COMPLETED</option>
+            </select>
+          </div>
+          <div>
+            <label for="edit-priority">Priority</label>
+            <select id="edit-priority">
+              <option value="LOW">LOW</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="HIGH">HIGH</option>
+            </select>
+          </div>
+          <div>
+            <label for="edit-duedate">Due Date</label>
+            <input id="edit-duedate" type="date" />
+          </div>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="submit">Save</button>
+          <button type="button" onclick="closeEditModal()">Cancel</button>
+        </div>
+        <p id="edit-error" class="error-msg"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
